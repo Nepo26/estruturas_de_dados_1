@@ -23,7 +23,6 @@ print_conjunto(conjunto_t *conj) {
 
 static void
 test_conjunto_novo(void) {
-    printf("asdf");
     conjunto_t *conjunto = conjunto_novo();
     assert(conjunto != NULL);
     assert(0 == conjunto_qtd_itens(conjunto));
@@ -197,9 +196,9 @@ test_conjunto_uniao(void) {
 int
 main(void) {
     test_conjunto_novo();
-//    test_conjunto_contem();
-//    test_conjunto_adiciona_remove();
-//    test_conjunto_iguais();
-//    test_conjunto_interseccao();
-//    test_conjunto_uniao();
+    test_conjunto_contem();
+    test_conjunto_adiciona_remove();
+    test_conjunto_iguais();
+    test_conjunto_interseccao();
+    test_conjunto_uniao();
 }
