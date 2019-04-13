@@ -3,13 +3,11 @@
 #include <stdlib.h>
 #include <assert.h>
 
-typedef struct conjunto conjunto_t;
-
 struct conjunto {
     /* elementos da estrutura */
     int *elemento;
     int ocpd;
-    size_t max ; //Espaco ja alocado 
+    size_t max ; //Espaco ja alocado
 };
 
 conjunto_t *
@@ -18,7 +16,7 @@ conjunto_novo(void) {
     /* aloca uma nova estrutura do tipo conjunto_t e inicializa os campos */
     conjunto_t *conj = (conjunto_t *) malloc(sizeof(conjunto_t));
 
-    
+
     if(conj != NULL){
         conj->elemento = NULL;
         conj->ocpd = 0;
@@ -32,7 +30,7 @@ conjunto_novo(void) {
 conjunto_t *
 conjunto_novo_lendo_vetor(int *vetor, size_t qtd) {
     int i=0;
-    
+
     conjunto_t *conj = conjunto_novo();
     if (conj == NULL)
         return NULL;
@@ -60,15 +58,15 @@ conjunto_encontra(conjunto_t *conj, int elemento){
 
     return false;
 }
- 
-   
+
+
 bool
 conjunto_contem(conjunto_t *conj, int elemento) {
     /* Percorre o vetor verificando se o elemento já foi incluso */
     int i=0;
 
     //Max Ou Ocpd ???
-    for(i=0;i<(conj->max);i++)
+    for(i=0;i<(conj->ocpd);i++)
         if(conj->elemento[i]==elemento)
             return true;
 
@@ -83,25 +81,25 @@ bool
 suficiente_memoria(conjunto_t *conj){
 
     if( conj->ocpd * sizeof(int)  == conj->max || conj->elemento==NULL){
-        //conjunto_t *conj3 = conjunto_novo(); 
+        //conjunto_t *conj3 = conjunto_novo();
         // conjunto_t *conj3 = realloc(conj, sizeof(conjunto_t) + conj->max + 50*sizeof(int) );
         // Acreditava que caso nao alocado o conjunto todo, nao suportaria o realloc de "elementos"
 
 
-        //Caso a funcao seja nula ele alocara 
+        //Caso a funcao seja nula ele alocara
         int *elementos = realloc(conj->elemento, conj->max + 50*sizeof(int) ); //So...no casting of realloc ?
-        
+
         //Para garantir que nao se perca dados no caso de erro na realocacao
         if(elementos != NULL){
 
             //    conj = conj3;
-            
+
             conj->elemento = elementos ;
-            conj->max = conj -> max + 50 * sizeof(int);
-        
+            conj->max = conj->max + 50 * sizeof(int);
+
             //Reajustando a alocacao do geral
-            free(elementos);
-            
+            //free(elementos); //Uai? Vc tá liberando a memória que acabou de alocar!
+
             // conjunto_libera(conj3);
             return true;
         } else {
@@ -122,31 +120,31 @@ conjunto_adiciona(conjunto_t *conj, int elemento) {
     if(conjunto_contem(conj,elemento)){
         return true;
     }
-    
-   //Verifica se a quantidade de elementos restantes do vetor e' suficiente
-   //se nao for , aloca mais memoria e retorna "true", caso nao haja mais 
-   //memoria suficiente para ser alocado retorna "false"
-   if(suficiente_memoria(conj)){
-    
-    // Por fim, a função deve adicionar o elemento ao vetor
-    conj->elemento[conj->ocpd]=elemento;
-    conj->ocpd++;
-    return true;
-   }
 
-   return false;
+    //Verifica se a quantidade de elementos restantes do vetor e' suficiente
+    //se nao for , aloca mais memoria e retorna "true", caso nao haja mais
+    //memoria suficiente para ser alocado retorna "false"
+    if(suficiente_memoria(conj)){
+
+        // Por fim, a função deve adicionar o elemento ao vetor
+        conj->elemento[conj->ocpd]=elemento;
+        conj->ocpd++;
+        return true;
+    }
+
+    return false;
 
 
     //Adicionar de forma aleatoria ? Como ?
     //
     //Ao que parece sequencial ja esta de bom tamanho
-    // 
+    //
 
 }
 
 
 
-//O ultimo elemento e' usado como "descarte", e' copiado o 
+//O ultimo elemento e' usado como "descarte", e' copiado o
 //elemento que sera descartado para a ultima posicao e os
 //outros elementos acima da sua posicao serao movidos para
 //a posicao anterior a deles.
@@ -161,11 +159,11 @@ conjunto_adiciona(conjunto_t *conj, int elemento) {
 int
 conjunto_encontra_posicao(conjunto_t *conj, int elemento){
     int i=0;
-    for(i=0;i<(conj->max-1);i++)
+    for(i=0;i<(conj->ocpd);i++)
         if(conj->elemento[i]==elemento)
             return i;
 
-    return 0;
+    return -1;
 }
 
 bool
@@ -174,18 +172,18 @@ conjunto_remove(conjunto_t *conj, int elemento) {
     int i=0;
 
     loc = conjunto_encontra_posicao(conj,elemento);
-    
 
-    conj->elemento[conj->max] = conj->elemento[loc]; 
+    if (loc == -1)
+        return false;
 
-    for(i=loc;i<(conj->max-1);i++){
+
+//    conj->elemento[conj->max] = conj->elemento[loc];
+
+    for(i=loc;i<(conj->ocpd);i++){
         conj->elemento[i]=conj->elemento[i+1];
     }
-    
-    if(conjunto_contem(conj,elemento) == true)
-        return true;
 
-    return false;
+    return true;
 }
 
 
@@ -205,18 +203,18 @@ conjunto_intersecao(conjunto_t *a, conjunto_t *b) {
 
     if(a->ocpd > b->ocpd)
         for(i=0;i<a->ocpd;i++)
-            if(a->elemento[i]==b->elemento[i])     
-                if(conjunto_adiciona(intersecao,a->elemento[i])==false)
-                    return NULL;
-    else
-        for(i=0;i<b->ocpd;i++)
             if(a->elemento[i]==b->elemento[i])
                 if(conjunto_adiciona(intersecao,a->elemento[i])==false)
                     return NULL;
+                else
+                    for(i=0;i<b->ocpd;i++)
+                        if(a->elemento[i]==b->elemento[i])
+                            if(conjunto_adiciona(intersecao,a->elemento[i])==false)
+                                return NULL;
 
-                
 
-    if(intersecao != NULL) 
+
+    if(intersecao != NULL)
         return intersecao;
 
     return NULL;
@@ -269,12 +267,12 @@ conjunto_iguais(conjunto_t *a, conjunto_t *b) {
 
     if(a->ocpd != b->ocpd)
         return sign;
-    
+
     for(i=0;i<(a->ocpd);i++)
         if(conjunto_contem(b,a->elemento[i]));
-           sign=true; 
-            
-    
+    sign=true;
+
+
     return sign;
 }
 
