@@ -20,7 +20,7 @@ conjunto_novo(void) {
     if(conj != NULL){
         conj->elemento = NULL;
         conj->ocpd = 0;
-        conj->max = 50*sizeof(int);
+        conj->max = 50;
         return conj;
     }
 
@@ -80,14 +80,15 @@ conjunto_contem(conjunto_t *conj, int elemento) {
 bool
 suficiente_memoria(conjunto_t *conj){
 
-    if( conj->ocpd * sizeof(int)  == conj->max || conj->elemento==NULL){
-        //conjunto_t *conj3 = conjunto_novo();
+    if( conj->ocpd  == conj->max || conj->elemento==NULL){
+        //conjunto_t *conj3 = conjunto_novo(); 
+
         // conjunto_t *conj3 = realloc(conj, sizeof(conjunto_t) + conj->max + 50*sizeof(int) );
         // Acreditava que caso nao alocado o conjunto todo, nao suportaria o realloc de "elementos"
 
-
-        //Caso a funcao seja nula ele alocara
-        int *elementos = realloc(conj->elemento, conj->max + 50*sizeof(int) ); //So...no casting of realloc ?
+        //Caso a funcao seja nula ele alocara 
+        int *elementos = realloc(conj->elemento, (conj->max + 50)*sizeof(int) ); //So...no casting of realloc ?
+        
 
         //Para garantir que nao se perca dados no caso de erro na realocacao
         if(elementos != NULL){
@@ -95,8 +96,9 @@ suficiente_memoria(conjunto_t *conj){
             //    conj = conj3;
 
             conj->elemento = elementos ;
-            conj->max = conj->max + 50 * sizeof(int);
 
+            conj->max = conj -> max + 50;
+        
             //Reajustando a alocacao do geral
             //free(elementos); //Uai? Vc tá liberando a memória que acabou de alocar!
 
@@ -142,8 +144,6 @@ conjunto_adiciona(conjunto_t *conj, int elemento) {
 
 }
 
-
-
 //O ultimo elemento e' usado como "descarte", e' copiado o
 //elemento que sera descartado para a ultima posicao e os
 //outros elementos acima da sua posicao serao movidos para
@@ -152,8 +152,6 @@ conjunto_adiciona(conjunto_t *conj, int elemento) {
 //
 //
 //Desperdicio de processamento ??
-
-
 
 //Encontra o elemento e retorna sua posicao
 int
@@ -212,9 +210,8 @@ conjunto_intersecao(conjunto_t *a, conjunto_t *b) {
                             if(conjunto_adiciona(intersecao,a->elemento[i])==false)
                                 return NULL;
 
+    if(intersecao != NULL) 
 
-
-    if(intersecao != NULL)
         return intersecao;
 
     return NULL;
@@ -285,7 +282,7 @@ conjunto_vetor(conjunto_t *conj) {
     if(vetor != NULL)
         return vetor;
 
-    return NULL;
+    return 0;
 }
 
 void
