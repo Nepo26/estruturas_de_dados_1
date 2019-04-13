@@ -144,19 +144,6 @@ conjunto_adiciona(conjunto_t *conj, int elemento) {
 
 }
 
-
-
-//O ultimo elemento e' usado como "descarte", e' copiado o 
-//elemento que sera descartado para a ultima posicao e os
-//outros elementos acima da sua posicao serao movidos para
-//a posicao anterior a deles.
-//
-//
-//
-//Desperdicio de processamento ??
-
-
-
 //Encontra o elemento e retorna sua posicao
 int
 conjunto_encontra_posicao(conjunto_t *conj, int elemento){
@@ -167,6 +154,16 @@ conjunto_encontra_posicao(conjunto_t *conj, int elemento){
 
     return 0;
 }
+
+//O ultimo elemento e' usado como "descarte", e' copiado o 
+//elemento que sera descartado para a ultima posicao e os
+//outros elementos acima da sua posicao serao movidos para
+//a posicao anterior a deles.
+//
+//
+//
+//Desperdicio de processamento ??
+
 
 bool
 conjunto_remove(conjunto_t *conj, int elemento) {
@@ -213,8 +210,6 @@ conjunto_intersecao(conjunto_t *a, conjunto_t *b) {
             if(a->elemento[i]==b->elemento[i])
                 if(conjunto_adiciona(intersecao,a->elemento[i])==false)
                     return NULL;
-
-                
 
     if(intersecao != NULL) 
         return intersecao;
@@ -287,7 +282,7 @@ conjunto_vetor(conjunto_t *conj) {
     if(vetor != NULL)
         return vetor;
 
-    return NULL;
+    return 0;
 }
 
 void
