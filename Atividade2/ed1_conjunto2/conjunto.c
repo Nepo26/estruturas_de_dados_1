@@ -12,7 +12,6 @@ struct conjunto {
 
 conjunto_t *
 conjunto_novo(void) {
-    printf("asdf");
     /* aloca uma nova estrutura do tipo conjunto_t e inicializa os campos */
     conjunto_t *conj = (conjunto_t *) malloc(sizeof(conjunto_t));
 
@@ -160,17 +159,18 @@ conjunto_intersecao(conjunto_t *a, conjunto_t *b) {
     int i=0;
     conjunto_t *intersecao = conjunto_novo();
     
-    if(intersecao == NULL)
+    if(intersecao == NULL){
         return NULL;
+    }
 
-        for(i=0;i<a->ocpd;i++){
-            if(conjunto_contem(b,a->elemento[i])){
-                if(conjunto_adiciona(intersecao,a->elemento[i])==false){
-                    return NULL;
-                }
-                intersecao->ocpd++;
+    for(i=0;i<a->ocpd;i++){
+        if(conjunto_contem(b,a->elemento[i])){
+            if(conjunto_adiciona(intersecao,a->elemento[i])==false){
+                return NULL;
             }
-        } 
+            intersecao->ocpd++;
+        }
+    } 
         
     return intersecao;
 }
