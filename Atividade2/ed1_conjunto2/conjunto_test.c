@@ -74,93 +74,94 @@ test_conjunto_adiciona_remove(void) {
     assert(!conjunto_contem(conj, 15));
     assert(2 == conjunto_qtd_itens(conj));
 
-    assert(!conjunto_remove(conj, 15));
-    assert(2 == conjunto_qtd_itens(conj));
+        assert(!conjunto_remove(conj, 15));
+        assert(2 == conjunto_qtd_itens(conj));
 
-    assert(conjunto_remove(conj, 10));
-    assert(1 == conjunto_qtd_itens(conj));
+        assert(conjunto_remove(conj, 10));
+        assert(1 == conjunto_qtd_itens(conj));
 
-    assert(!conjunto_remove(conj, 10));
-    assert(1 == conjunto_qtd_itens(conj));
+        assert(!conjunto_remove(conj, 10));
+        assert(1 == conjunto_qtd_itens(conj));
 
-    assert(conjunto_remove(conj, 20));
-    assert(0 == conjunto_qtd_itens(conj));
+        assert(conjunto_remove(conj, 20));
+        assert(0 == conjunto_qtd_itens(conj));
 
-    conjunto_libera(conj);
-}
+        conjunto_libera(conj);
+    }
 
-static void
-test_conjunto_iguais(void) {
-    int itens[1024];
-    init_vetor_aleatorio(itens, 1024);
+    static void
+    test_conjunto_iguais(void) {
+        int itens[1024];
+        init_vetor_aleatorio(itens, 1024);
 
-    conjunto_t *a = conjunto_novo_lendo_vetor(itens, 1024);
-    conjunto_t *b = conjunto_novo();
-    for (int i = 1024 - 1; i >= 0; i--)
-        conjunto_adiciona(b, itens[i]);
+        conjunto_t *a = conjunto_novo_lendo_vetor(itens, 1024);
+        conjunto_t *b = conjunto_novo();
+        for (int i = 1024 - 1; i >= 0; i--)
+            conjunto_adiciona(b, itens[i]);
 
-    assert(conjunto_iguais(a, b));
+        assert(conjunto_iguais(a, b));
 
-    conjunto_libera(a);
-    conjunto_libera(b);
+        conjunto_libera(a);
+        conjunto_libera(b);
 
-    a = conjunto_novo();
-    conjunto_adiciona(a, 10);
-    conjunto_adiciona(a, 10);
-    conjunto_adiciona(a, 20);
-    conjunto_adiciona(a, 30);
+        a = conjunto_novo();
+        conjunto_adiciona(a, 10);
+        conjunto_adiciona(a, 10);
+        conjunto_adiciona(a, 20);
+        conjunto_adiciona(a, 30);
+        
+        b = conjunto_novo();
+        conjunto_adiciona(b, 20);
+        conjunto_adiciona(b, 30);
+        conjunto_adiciona(b, 20);
+        conjunto_adiciona(b, 10);
 
-    b = conjunto_novo();
-    conjunto_adiciona(b, 20);
-    conjunto_adiciona(b, 30);
-    conjunto_adiciona(b, 20);
-    conjunto_adiciona(b, 10);
+        assert(conjunto_iguais(a, b));
 
-    assert(conjunto_iguais(a, b));
-
-    conjunto_libera(a);
-    conjunto_libera(b);
+        conjunto_libera(a);
+        conjunto_libera(b);
 
 
-    a = conjunto_novo();
-    conjunto_adiciona(a, 10);
-    conjunto_adiciona(a, 20);
+        a = conjunto_novo();
+        conjunto_adiciona(a, 10);
+        conjunto_adiciona(a, 20);
 
-    b = conjunto_novo();
-    conjunto_adiciona(b, 10);
-    conjunto_adiciona(b, 20);
-    conjunto_adiciona(b, 30);
+        b = conjunto_novo();
+        conjunto_adiciona(b, 10);
+        conjunto_adiciona(b, 20);
+        conjunto_adiciona(b, 30);
 
-    assert(!conjunto_iguais(a, b));
+        assert(!conjunto_iguais(a, b));
 
-    conjunto_libera(a);
-    conjunto_libera(b);
+        conjunto_libera(a);
+        conjunto_libera(b);
 
-    a = conjunto_novo();
-    conjunto_adiciona(a, 10);
-    conjunto_adiciona(a, 20);
-    conjunto_adiciona(a, 30);
+        a = conjunto_novo();
+        conjunto_adiciona(a, 10);
+        conjunto_adiciona(a, 20);
+        conjunto_adiciona(a, 30);
 
-    b = conjunto_novo();
-    conjunto_adiciona(b, 10);
-    conjunto_adiciona(b, 20);
+        b = conjunto_novo();
+        conjunto_adiciona(b, 10);
+        conjunto_adiciona(b, 20);
 
-    assert(!conjunto_iguais(a, b));
+        assert(!conjunto_iguais(a, b));
 
-    conjunto_libera(a);
-    conjunto_libera(b);
+        conjunto_libera(a);
+        conjunto_libera(b);
 
-}
+    }
 
-static void
-test_conjunto_interseccao(void) {
-    int itens_a[] = {10, 20, 30, 40, 50};
-    conjunto_t *a = conjunto_novo_lendo_vetor(itens_a, 5);
+    static void
+    test_conjunto_interseccao(void) {
+        int itens_a[] = {10, 20, 30, 40, 50};
+        conjunto_t *a = conjunto_novo_lendo_vetor(itens_a, 5);
 
-    int itens_b[] = {10, 30, 50, 60, 70};
-    conjunto_t *b = conjunto_novo_lendo_vetor(itens_b, 5);
-
+        int itens_b[] = {10, 30, 50, 60, 70};
+        conjunto_t *b = conjunto_novo_lendo_vetor(itens_b, 5);
+    
     conjunto_t *c = conjunto_intersecao(a, b);
+    
     assert(3 == conjunto_qtd_itens(c));
     assert(conjunto_contem(c, 10));
     assert(conjunto_contem(c, 30));

@@ -101,7 +101,7 @@ conjunto_adiciona(conjunto_t *conj, int elemento) {
     }
 
     //Verifica se a quantidade de elementos restantes do vetor e' suficiente
-    //se nao for , aloca mais memoria e retorna "true", caso nao haja mais
+    //se nao for, aloca mais memoria e retorna "true", caso nao haja mais
     //memoria suficiente para ser alocado retorna "false"
     if(suficiente_memoria(conj)){
 
@@ -163,12 +163,12 @@ conjunto_intersecao(conjunto_t *a, conjunto_t *b) {
         return NULL;
     }
 
-    for(i=0;i<a->ocpd;i++){
+    for(i=0;i<(a->ocpd);i++){
         if(conjunto_contem(b,a->elemento[i])){
+            conjunto_adiciona(intersecao,a->elemento[i]);
             if(conjunto_adiciona(intersecao,a->elemento[i])==false){
                 return NULL;
             }
-            intersecao->ocpd++;
         }
     } 
         
