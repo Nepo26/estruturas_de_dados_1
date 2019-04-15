@@ -48,24 +48,12 @@ conjunto_novo_lendo_vetor(int *vetor, size_t qtd) {
     return conj;
 }
 
-//Encontra o elemento e retorna se o encontrou
-bool
-conjunto_encontra(conjunto_t *conj, int elemento){
-    int i=0;
-    for(i=0;i<(conj->max-1);i++)
-        if(conj->elemento[i]==elemento)
-            return true;
-
-    return false;
-}
-
 
 bool
 conjunto_contem(conjunto_t *conj, int elemento) {
     /* Percorre o vetor verificando se o elemento já foi incluso */
     int i=0;
 
-    //Max Ou Ocpd ???
     for(i=0;i<(conj->ocpd);i++)
         if(conj->elemento[i]==elemento)
             return true;
@@ -174,12 +162,11 @@ conjunto_remove(conjunto_t *conj, int elemento) {
     if (loc == -1)
         return false;
 
-
-//    conj->elemento[conj->max] = conj->elemento[loc];
-
     for(i=loc;i<(conj->ocpd);i++){
         conj->elemento[i]=conj->elemento[i+1];
     }
+    
+   conj->ocpd--;
 
     return true;
 }
@@ -196,25 +183,40 @@ conjunto_qtd_itens(conjunto_t *conj) {
 */
 conjunto_t *
 conjunto_intersecao(conjunto_t *a, conjunto_t *b) {
-    int i=0;
+    int i=0,j=0;
     conjunto_t *intersecao = conjunto_novo();
+    
+    if(intersecao == NULL)
+        return NULL;
 
-    if(a->ocpd > b->ocpd)
-        for(i=0;i<a->ocpd;i++)
-            if(a->elemento[i]==b->elemento[i])
-                if(conjunto_adiciona(intersecao,a->elemento[i])==false)
-                    return NULL;
-                else
-                    for(i=0;i<b->ocpd;i++)
-                        if(a->elemento[i]==b->elemento[i])
-                            if(conjunto_adiciona(intersecao,a->elemento[i])==false)
-                                return NULL;
 
-    if(intersecao != NULL) 
+if(a->ocpd > b->ocpd){
+        for(i=0;i<a->ocpd;i++){
+            for(j=0;j<b->ocpd;j++){
+                if(a->elemento[i]==b->elemento[j]){
+                    if(conjunto_adiciona(intersecao,a->elemento[i])==false){
+                        return NULL;
+                    }
+                    intersecao->ocpd++;
+                }
+            }
+        }
+    }
+    else{
+        for(i=0;i<b->ocpd;i++){
+            for(j=0;j<a->ocpd;j++){
+                if(a->elemento[j]==b->elemento[i]){
+                    if(conjunto_adiciona(intersecao,a->elemento[i])==false){
+                        return NULL;
+                    }
+                    intersecao->ocpd++;
+                }
+            }
+        }
+    }
 
-        return intersecao;
 
-    return NULL;
+    return intersecao;
 }
 
 /**
