@@ -10,13 +10,14 @@ struct no_int {
 
 typedef struct lista_int {
     NoInt *cabeca; // Ponteiro para a cabeca da lista
+    NoInt *fim;    // Ponteito para o fim da lista
     size_t qtd; Quantidade de elementos na lista
 
 } ListaInt;
 
 ListaInt * 
 lista_novo(void) {
-    ListaInt *lista = malloc(sizeof(Listaint));
+    ListaInt *lista = malloc(sizeof(ListaInt));
 
     lista->cabeca = NULL;
     lista->qtd = 0;
@@ -24,22 +25,56 @@ lista_novo(void) {
     return lista;
 }
 
+//Adiciona um item na posicao pedida
 void
 lista_adiciona(ListaInt *lista, int posicao, int item){
     ListaInt *inter = lista;
-    NoInt *nos = lista->cabeca;
+    
+    NoInt *nos = inter->cabeca;
     
     if(nos==NULL) {
         nos = no_int_novo(item,nos);
-        lista->qtd++;
+        inter->qtd++;
     }
     else{
-    no_int_adiciona(nos,posicao,item) ;
-    lista->qtd++;
+        no_int_adiciona(nos,posicao,item) ;
+        inter->qtd++;
     }
     
 }
 
+void 
+lista_adiciona_fim(ListaInt *lista, int item){
+    ListaInt *inter = lista;
+    
+    NoInt *no       = inter->fim;
+    NoInt *novo_fim = no_int_novo(item,NULL);
+    no->proximo     = novo_fim;     
+}
+
+void
+lista_libera_itera(ListaInt *lista){
+    ListaInt *inter = lista;
+    NoInt *nos = inter->cabeca;
+    NoInt *temp_nos = NULL;
+
+    while(nos != NULL){
+        *temp_nos = nos;
+        free(nos); // Sera' que apenas assim liberaria a quantidade alocada ??
+        
+        nos = temp_nos; //Reajustando para poder acessar na proxima linha o nos->proximo
+        nos = nos->proximo;
+    }
+        
+    
+}
+
+void 
+lista_libera_recursao(ListaInt *lista){
+
+}
+
+//Obtem o item que esta na posicao pedida
 int
 lista_obtem(ListiaInt *lista, int posicao){
     NoInt *nos= lista->cabeca;
