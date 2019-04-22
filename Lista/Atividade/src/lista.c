@@ -54,8 +54,7 @@ lista_adiciona_fim(ListaInt *lista, int item){
 
 void
 lista_libera_itera(ListaInt *lista){
-    ListaInt *inter = lista;
-    NoInt *nos = inter->cabeca;
+    NoInt *nos = lista->cabeca;
     NoInt *temp_nos = NULL;
 
     while(nos != NULL){
@@ -65,13 +64,21 @@ lista_libera_itera(ListaInt *lista){
         nos = temp_nos; //Reajustando para poder acessar na proxima linha o nos->proximo
         nos = nos->proximo;
     }
-        
-    
 }
 
 void 
 lista_libera_recursao(ListaInt *lista){
+    NoInt *nos  = lista->cabeca; 
+    NoInt *temp = NULL;
 
+    if(nos != NULL){
+        temp = nos->proximo;
+
+        free(nos);
+
+        nos = temp->proximo;
+        lista_libera_recursao(lista);
+    }
 }
 
 //Obtem o item que esta na posicao pedida
