@@ -18,17 +18,30 @@ lista_adiciona(lista_t *lista, int item){
     lista_no_t *no = lista->cabeca;
     lista_no_t *add = malloc(sizeof(lista_no_t));
 
+    lista_no_t *tmp = NULL;
+
     if(no==NULL){
         no = add; 
-
+    
         no->item=item;
         no->proximo = NULL;
-
+    
         lista->tamanho = 1; // Caso colocasse ++ tinha risco de ja ter algo ? ? Nao sei, cansado...
     }
     else {
-        no->item = item;
-        no->proximo = 
+        while(no!=NULL){
+            if( (no->proximo)->item < add->item){
+                tmp = (no->proximo);
+                (no->proximo) = add;
+            
+                add->proximo=tmp;
+                break;
+            }
+        }
+        add->item    = item;
+        add->proximo = no; 
+        
+        lista->cabeca=add;
         lista->tamanho++;
     
     }
