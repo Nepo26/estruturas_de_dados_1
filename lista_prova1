@@ -1,0 +1,16 @@
+void 
+maximo(ListaNo *Cabeca){
+    No *nos  = lista->cabeca; 
+    No *temp = NULL;
+
+    if(nos != NULL){
+        temp = nos->proximo;
+
+        free(nos);
+
+        nos = temp->proximo;
+        lista_libera_recursao(lista);
+    }
+}
+
+
