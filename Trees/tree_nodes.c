@@ -43,16 +43,7 @@ insert(TreeNode* root, int data){
 TreeNode*
 insert_itera_pilha(TreeNode* root, int data){
 //Implementing as a integer search binary tree [ITERATIVALY]
-    Pilha* pilha = pilha_nova();
-
-    while(root!=NULL){
-        pilha_empilha(pilha, root);
-        
-        if(data < root->data)
-            root = root->left;
-        else
-            root = root->right;
-    }
+    
 }
 
 TreeNode*
