@@ -1,5 +1,6 @@
 #include "tree_nodes.c"
 #include <stdio.h>
+#include <assert.h>
 
 void main(){
     int qnt, val, qu, i;

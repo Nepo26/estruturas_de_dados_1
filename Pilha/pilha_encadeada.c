@@ -5,6 +5,8 @@
 #include "pilha_encadeada.h"
 #include <stdlib.h>
 #include <assert.h>
+#include <stdbool.h>
+
 
 typedef struct pilha_no PilhaNo;
 struct pilha_no {
@@ -61,7 +63,9 @@ pilha_desempilha(Pilha *pilha) {
 
 bool
 vazia(Pilha *pilha) {
-    return pilha->topo == NULL;
+    if( pilha->topo == NULL )
+        return true;
+    return false;
 }
 
 void
